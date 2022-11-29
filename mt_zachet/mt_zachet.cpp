@@ -110,6 +110,7 @@ void test_aresynonims() {
     }
     cerr << "are synonims ok" << endl;
 }
+
 class testrunner {
 public:
     template <class testfunk>
@@ -139,37 +140,51 @@ void testall() {
     tr.runtest(test_aresynonims, "test_aresynonims");
 }
 
-int main()
-{
-    int mode;
-    cout << "select mode(0-main/other-test)" << endl;
-    cin >> mode;
-    if (mode == 0) {
-        string operator_code;
-        int q;
-        cin >> q;
-        map<string, set<string>> synonims;
-        for (int i = 0; i < q; i++) {
-            cin >> operator_code;
-        }
+void main_func() {
+    string operator_code;
+    map<string, set<string>> synonims;
+    bool work = true;
+    while (work) {
+        cout << "enter operator (add/check/count/exit)" << endl;
+        cin >> operator_code;
         if (operator_code == "add") {
             string f_word, sec_word;
+            cout << "enter two new synonims" << endl;
             cin >> f_word >> sec_word;
             addsynonims(synonims, f_word, sec_word);
         }
         else if (operator_code == "count") {
             string word;
+            cout << "enter word" << endl;
             cin >> word;
             cout << getsyncount(synonims, word) << endl;
         }
+        else if (operator_code == "exit") {
+            exit(1);
+        }
         else if (operator_code == "check") {
             string f_word, sec_word;
+            cout << "enter words u want to check" << endl;
             cin >> f_word >> sec_word;
             if (aresynonims(synonims, f_word, sec_word) == 1)
                 cout << "yes" << endl;
             else
                 cout << "no" << endl;
+        
         }
+    }
+}
+int main()
+{
+    int mode;
+    cout << "select mode(0-only_main/1-video_mode/2-only_test)" << endl;
+    cin >> mode;
+    if (mode == 0) {
+        main_func();
+    }
+    else if (mode == 1) {
+        testall();
+        main_func();
     }
     else {
         try {
